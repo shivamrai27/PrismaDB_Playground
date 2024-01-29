@@ -9,3 +9,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String?
+  email      String   @unique
+  password   String?
+  created_at DateTime @default(now())
+}
+
+//Dont forget to migrate above User model only for first time(to create empty table) command is given below
+//npx prisma migrate dev --name create_user_schema (give the logical name)
