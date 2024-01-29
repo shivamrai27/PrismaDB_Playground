@@ -1,5 +1,6 @@
 import prisma from "../DB/db.config.js";
 
+// * Create a new user
 export const createUser = async (req, res) => {
 
     const { name, email, password } = req.body;
@@ -27,4 +28,28 @@ export const createUser = async (req, res) => {
     })
 
     res.json({ status: 200, data: newUser, mesage: "new user created successfully" });
+}
+
+// * Update user
+
+export const updateUser = async (req, res) => {
+    const { name, email, password } = req.body;
+    const userId = req.params.id;
+
+    await prisma.user.update({
+
+        // updating on the basis of uniqueness(which is id)
+        where: {
+            // converting id into number bcz parms give string
+            id: Number(userId)
+        },
+        //data tobe updated
+        data: {
+            name: name,
+            email: email,
+            password: password
+        }
+
+    })
+    res.json({ status: 200, message: `Successfully updated` })
 }

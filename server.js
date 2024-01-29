@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { urlencoded } from 'express';
 import 'dotenv/config';
 const app = express();
 const PORT = 3000
 
 // * Miidleware
 app.use(express.json());
+app.use(urlencoded({ extended: false }))
 
 
 // * Routes File

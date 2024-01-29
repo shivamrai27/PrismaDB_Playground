@@ -3,5 +3,11 @@ const router = Router();
 
 import UserRoutes from './userRoutes.js'
 
-router.use('/api/createUser', UserRoutes)
+// * User route
+router.use('/api/user', UserRoutes)
+
+// * post route
+
+
+// * comment route
 export default router;
