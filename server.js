@@ -3,7 +3,7 @@ import 'dotenv/config';
 const app = express();
 const PORT = 3000
 
-// * Miidleware
+// * Midleware
 app.use(express.json());
 app.use(urlencoded({ extended: false }))
 
