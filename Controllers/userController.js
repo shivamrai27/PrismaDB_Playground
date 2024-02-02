@@ -2,7 +2,28 @@ import prisma from "../DB/db.config.js";
 
 // * Show Users
 export const fetchUsers = async (req, res) => {
-    const users = await prisma.user.findMany({});
+    const users = await prisma.user.findMany({
+        // * Shows users with its posts aswell in post where we only want title and comment_count only
+        // include: {
+        //     post: {
+        //         select: {
+        //             title: true,
+        //             comment_count: true
+        //         }
+        //     }
+        // }
+
+        // * show user's number of post and comment count
+        select: {
+            _count: {  // _count will act counter for post and comment 
+                select: {
+                    post: true,
+                    comment: true
+                }
+            }
+        }
+
+    });
     return res.json({ status: 200, users: users })
 }
 
@@ -12,6 +33,9 @@ export const fetchUser = async (req, res) => {
     const user = await prisma.user.findFirst({
         where: {
             id: Number(userId)
+        },
+        include: {
+            post: true
         }
     })
     return res.json({ status: 200, user: user })
