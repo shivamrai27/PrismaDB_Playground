@@ -19,6 +19,11 @@ export const fetchPosts = async (req, res) => {
                     }
                 }
             }
+        },
+
+        // * filtering
+        orderBy: { // The show in decending order means the last post shown firest
+            id: "desc"
         }
     });
     return res.json({ status: 200, posts: posts })
@@ -86,4 +91,15 @@ export const deletePost = async (req, res) => {
         }
     })
     res.json({ status: 200, message: "Successfully deleted" });
+}// * Full-text search (it will search the description of post and return if such post is existing or not)
+export const searchPost = async (req, res) => {
+    const query = req.query.q
+    const result = await prisma.post.findMany({
+        where: {
+            description: {
+                search: query,
+            },
+        }
+    })
+    return res.json({ status: 200, data: result })
 }

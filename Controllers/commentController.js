@@ -2,7 +2,22 @@ import prisma from "../DB/db.config.js";
 
 // * Show Posts
 export const fetchComments = async (req, res) => {
-    const comments = await prisma.comment.findMany({});
+    const comments = await prisma.comment.findMany({
+
+        // * This will show comment which user is done and on which post (and which user is posted that post)
+        include: {
+            user: true, // which user is commented
+            post: {  // comment is on which post 
+                include: {
+                    user: { // which user is done the post
+                        select: {
+                            name: true // its name of the user
+                        }
+                    }
+                }
+            }
+        }
+    });
     return res.json({ status: 200, comments: comments })
 }
 
